@@ -1,5 +1,6 @@
 package pageobject;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -28,11 +29,11 @@ public class login_page {
      public void enterUsername(String username){
          txt_username.sendKeys(username);
      }
-    public void enterpassword(String password){
+    public void enterPassword(String password){
         txt_password.sendKeys(password);
     }
 
-    public void clickonlogin(){
+    public void clickLoginButton(){
 
         WebElement loginButton = driver.findElement(By.id("login-button"));
         loginButton.click();

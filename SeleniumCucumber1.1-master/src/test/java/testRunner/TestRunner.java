@@ -7,8 +7,8 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions
         (
-                features ="Features/Login.feature",
-                glue='src/test/java/stepDefinitions',
+                features ="C:\\Users\\Dell\\Desktop\\SaniaCucumberTest\\SeleniumCucumber1.1-master\\Features\\Login.feature",
+                glue="stepDefinitions",
                 monochrome = true,
                 plugin = {"pretty", "html:target/html-test-output.html",
                         "json:target/cucumber.json",

@@ -1,4 +1,4 @@
-package stepdefinitions;
+package stepDefinitions;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -7,6 +7,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import pageobject.ProductPage;
+import pageobject.login_page;
+
+import java.time.Duration;
+
 import static org.junit.Assert.*;
 
 public class LoginSteps {
@@ -19,7 +25,11 @@ public class LoginSteps {
     public void givenUserIsOnLoginPage() {
         // Initialize WebDriver
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        driver = new ChromeDriver();
+//        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+
+        driver = new ChromeDriver(options);
         driver.get("https://www.saucedemo.com/");
     }
 
@@ -27,11 +37,11 @@ public class LoginSteps {
     public void whenUserEntersValidCredentials(String username ,String password) {
 
 
-        login =new login_page(driver);
+        login_page login = new login_page(driver);
         driver.manage().timeouts().implicitlyWait( Duration.ofSeconds(10));
         login.enterUsername(username);
-        login.enterpassword(password);
-        clickonlogin()
+        login.enterPassword(password);
+        login.clickLoginButton();
     }
 
     @Then("the user should be logged in successfully")
@@ -41,12 +51,12 @@ public class LoginSteps {
     }
 
     @When("the user enters invalid credentials")
-    public void whenUserEntersInvalidCredentials() {
-        login =new login_page(driver);
+    public void whenUserEntersInvalidCredentials(String username,String password) {
+        login_page login = new login_page(driver);
         driver.manage().timeouts().implicitlyWait( Duration.ofSeconds(10));
         login.enterUsername(username);
-        login.enterpassword(password);
-        clickonlogin()
+        login.enterPassword(password);
+        login.clickLoginButton();
     }
 
     @Then("the user should see an error message")
@@ -56,30 +66,30 @@ public class LoginSteps {
     }
 
 
-        @Given("the user is logged in")
-        public void givenUserIsLoggedIn() {
+    @Given("the user is logged in")
+    public void givenUserIsLoggedIn() {
 
-            System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.get("https://www.saucedemo.com/");
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/");
 
-            loginPage = new LoginPage(driver);
-            loginPage.enterUsername("standard_user");
-            loginPage.enterPassword("secret_sauce");
-            loginPage.clickLoginButton();
-        }
+        login_page login = new login_page(driver);
+        login.enterUsername("standard_user");
+        login.enterPassword("secret_sauce");
+        login.clickLoginButton();
+    }
 
-        @When("the user clicks the logout button")
-        public void whenUserClicksLogoutButton() {
-            productPage = new ProductPage(driver);
-            productPage.logout();
-        }
+    @When("the user clicks the logout button")
+    public void whenUserClicksLogoutButton() {
+        ProductPage productPage = new ProductPage(driver);
+        productPage.logout();
+    }
 
-        @Then("the user should be logged out")
-        public void thenUserShouldBeLoggedOut() {
-            WebElement errorElement = driver.findElement(By.cssSelector("#root > div > div.login_logo"));
-            assertTrue(errorElement.isDisplayed());
-        }
+    @Then("the user should be logged out")
+    public void thenUserShouldBeLoggedOut() {
+        WebElement errorElement = driver.findElement(By.cssSelector("#root > div > div.login_logo"));
+        assertTrue(errorElement.isDisplayed());
+    }
 
 
 
